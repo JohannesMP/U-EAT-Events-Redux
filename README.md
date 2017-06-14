@@ -3,7 +3,7 @@
 
 ![Example of Event Categories](http://i.imgur.com/l5M0nxt.gif)
 
-A redux of events from U-EAT by Filiecs: http://u-eat.org/
+A redux of events from U-EAT http://u-eat.org/
 
 ## Goals of Redux
 
