@@ -1,7 +1,7 @@
 
 # U-EAT-Events-Redux
 
-![Example of Event Categories](http://i.imgur.com/l5M0nxt.gif)
+![Example of Event Categories](http://i.imgur.com/eVipIrl.gif)
 
 A redux of the U-EAT event system: http://u-eat.org/events.html
 
@@ -39,8 +39,9 @@ Therefore the `EventSystem` class was renamed to `EventDispatch` to avoid name a
 
 These three parts have been broken up:
 1. The `static readonly String` events are still inside the `Events` class, but it is now partial to allow being split into multiple files. The original default event strings are now located in the files in `EventSystem/EventCategories/`.
-   - The strings are now initialized dynamically to the field's name if they are left uninitialized, null or empty.
+   - The strings are now initialized dynamically if they are left uninitialized, null or empty.
    - The strings are also now divided into sub-classes which are treated as categories corresponding to their name, and to allow the fields to be initialized correctly, each class containing the event strings must have a static constructor that calls `InitAll()` which is inherited from the parent `Events` class.
+   - To allow `Events.A.Init` and `Events.B.Init` to be disambiguated, they are initialized by prefixing their category.
 2. `Events` (the non-static class for selecting event strings) is now `EventString`, and its `EventPropertyDrawer` is now `EventStringPropertyDrawer`, located in `EventSystem/Core/EventString.cs` and `EventSystem/Core/Editor/EventStringPropertyDrawer.cs` respectively.
    - The propertydrawer also now has two dropdowns, one first for the category, and then for the event itself.
 3. The `EventData` types moved to `EventSystem/Core/EventData.cs`
@@ -58,10 +59,6 @@ To ensure that Connecting an action multiple times will result in the same wrapp
 
 Similarly, to ensure that `EventDisconnect(string eventName, object thisPointer)` still works, `EventHandler` also stores the inverse mapping `WrapperCallbackList`. This is necessary since the events are removed by looking at the `Target` property of each stored `Action<EventData`, but the wrapper does have that same Target. We use `WrapperCallbackList` to efficiently locate the original `Action` and then compare against its `Target` instead.
 
-### 4. Minor changes
-
-Other minor changes include the option to validate event strings. By default this runs `ToLower()` on all event strings passed into the system and so means that "MyEvent" and "myEvent" are the same as far as the event system is concerned.
-
 <br />
 
 ## How event strings now work
@@ -77,7 +74,8 @@ namespace UEAT.EventSystem {                   // 1. Namespace
     public class Category {                    // 3. The container for the static readonly strings
       static Category() { InitAll(); }         // 4. Ensures that all static readonly strings are init
       
-      public static readonly string SomeEvent; // 5. Guaranteed to be initialized with string "SomeEvent"
+      public static readonly string SomeEvent; // 5. Guaranteed to be initialized with string "Category.SomeEvent"
+      public static readonly string Other = "Custom" // Guaranteed to be init with string "Category.Custom"
     }
   }
 }
@@ -97,7 +95,7 @@ public class EventDemo : MonoBehaviour {
 
 ### What is happening
 
-The event strings are guaranteed to be initialized to their own name if they are left empty or null. 
+The event strings are guaranteed to be initialized to their own name if they are left empty or null, and all event strings are prefixed with their Category - the string of classes they are inside of, which by default does not count 'Events' (this can be toggled in `EventCategory._ignoreBaseClassCategories`).
 
 It is easy to iterate over fields with C# Reflection and Linq and initialize them, but what if someone accesses an event string in a static constructor, who's initialization order might be before that of where we place the initialization logic?
 
@@ -118,8 +116,6 @@ To make it easy for users to add their own events, the `Events` class is now `pa
 
 ## Todo
 
-Currently the category is not automatically stored in an event string. This means that categories that contain the same event string, for example `Events.A.Init` and `Events.B.Init`, would be ambiguous.
+While the Category/Event dropdowns already update correctly when typing in the string field in the Inspector of an `EventString`, it might be nice to show the user an autocomplete dropdown that shows them potential Category/EventNames they might want to write.
 
-Currently there is also no check performed to prevent ambiguous events.
-
-It may make sense to Guarantee that event strings will always be formated as `Category.<OPTIONAL.SUBCATEGORIES>.Name`, which would also elliminate the need for storing the Category as a string in `EventString` for the `PropertyDrawer` (which is only stored in the editor).
+However this is very low priority since in that case the user can just use the dropdowns anyways.
