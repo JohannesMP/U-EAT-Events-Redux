@@ -20,7 +20,8 @@ Here is an overview of the changes made:
 ### 1. Namespace
 
 Everything to do with the event system is now in a new `UEAT.EventSystem` namespace.
-users need to add `using UEAT.EventSystem` if they want to use it in their code.
+
+Users need to add `using UEAT.EventSystem` if they want to use it in their code.
 
 Therefore `EventSystem` class renamed to `EventDispatch` to avoid name ambiguity, and `EventSystem/EventSystem.cs` is now `EventSystem/Core/EventDispatch.cs`
 
@@ -104,8 +105,6 @@ The first time any static property is accessed in a class with `InitAll()` in it
 
 
 To make it easy for users to add their own events, the `Events` class is now `partial` and inherits from EventCategory which provides all contained classes access to `InitAll()`, and means we can easily locate their static readonly strings.
-
-```
 
 
 
