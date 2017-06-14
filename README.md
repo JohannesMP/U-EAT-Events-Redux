@@ -17,8 +17,8 @@ All of these goals have been completed.
 Here is an overview of the changes made:
 
 
-### 1. Namespace
-
+### 1. Namespace and renaming the EventSystem class
+ 
 Everything to do with the event system is now in a new `UEAT.EventSystem` namespace.
 
 Users need to add `using UEAT.EventSystem` if they want to use it in their code.
@@ -26,7 +26,7 @@ Users need to add `using UEAT.EventSystem` if they want to use it in their code.
 Therefore `EventSystem` class renamed to `EventDispatch` to avoid name ambiguity, and `EventSystem/EventSystem.cs` is now `EventSystem/Core/EventDispatch.cs`
 
 
-### 2. Events - property and static strings
+### 2. Events property and static string changes
 
 `Events.cs` originally served three purposes:
 1. It defined several `static readonly String` fields for identifying events in the event system.
