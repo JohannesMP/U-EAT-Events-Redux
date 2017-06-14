@@ -35,8 +35,8 @@ Therefore `EventSystem` class renamed to `EventDispatch` to avoid name ambiguity
 
 These three parts have been broken up:
 1. The `static readonly String` events are still inside the `Events` class, but it is now partial to allow being split into multiple files. The original default event strings are now located in the files in `EventSystem/EventCategories/`.
-  - The strings are now initialized dynamically to the field's name if they are left uninitialized, null or empty.
-  - The strings are also now divided into sub-classes which are treated as categories corresponding to their name, and to allow the fields to be initialized correctly, each class containing the event strings must have a static constructor that calls `InitAll()` which is inherited from the containing `Events` class.
+   - The strings are now initialized dynamically to the field's name if they are left uninitialized, null or empty.
+   - The strings are also now divided into sub-classes which are treated as categories corresponding to their name, and to allow the fields to be initialized correctly, each class containing the event strings must have a static constructor that calls `InitAll()` which is inherited from the containing `Events` class.
 2. `Events` (the non-static class for selecting event strings) is now `EventString`, and its `EventPropertyDrawer` is now `EventStringPropertyDrawer`, located in `EventSystem/Core/EventString.cs` and `EventSystem/Core/Editor/EventStringPropertyDrawer.cs` respectively.
   - The propertydrawer also now has two dropdowns, one first for the category, and then for the event itself.
 3. The `EventData` types moved to `EventSystem/Core/EventData.cs`
