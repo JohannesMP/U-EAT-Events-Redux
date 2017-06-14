@@ -12,7 +12,7 @@ A redux of the U-EAT event system: http://u-eat.org/events.html
 3. No longer require event strings to be initialized manually (ex: `static readonly string LogicUpdate = "LogicUpdate"`.
 4. Allow Functions without an `EventData` argument to be Connected/Disconnected to an event string.
 
-All of these goals have been completed. See the [Todo](#Todo) section at the bottom of this readme for some potential future changes.
+All of these goals have been completed. See the [Todo](#todo) section at the bottom of this readme for some potential future changes.
 
 <br>
 
