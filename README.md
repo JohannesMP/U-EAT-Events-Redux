@@ -10,13 +10,14 @@ A redux of events from U-EAT by Filiecs: http://u-eat.org/
 
 All of these goals have been completed.
 
+<br>
 
 ## General Change Overview
 
 Here is an overview of the changes made:
 
 
-### Namespace
+### 1. Namespace
 
 Everything to do with the event system is now in a new `UEAT.EventSystem` namespace.
 users need to add `using UEAT.EventSystem` if they want to use it in their code.
@@ -24,7 +25,7 @@ users need to add `using UEAT.EventSystem` if they want to use it in their code.
 Therefore `EventSystem` class renamed to `EventDispatch` to avoid name ambiguity, and `EventSystem/EventSystem.cs` is now `EventSystem/Core/EventDispatch.cs`
 
 
-### Events - property and static strings
+### 2. Events - property and static strings
 
 `Events.cs` originally served three purposes:
 1. It defined several `static readonly String` fields for identifying events in the event system.
@@ -42,7 +43,7 @@ These three parts have been broken up:
 For more information see **How event strings now work** section below.
 
 
-### Functions without arguments
+### 3. Functions without arguments
 
 The `EventDispatch` (formerly `EventSystem`) and the `EventHandler` class both now support Connecting functions without arguments, as well as functions that accept an `EventData` instance.
 
@@ -52,8 +53,11 @@ To ensure that Connecting an action multiple times will result in the same wrapp
 
 Similarly, to ensure that `EventDisconnect(string eventName, object thisPointer)` still works, `EventHandler` also stores the inverse mapping `WrapperCallbackList`. This is necessary since the events are removed by looking at the `Target` property of each stored `Action<EventData`, but the wrapper does have that same Target. We use `WrapperCallbackList` to quickly locate the original `Action` and then compare against its `Target` instead.
 
+### 4. Minor changes
 
----------
+Other minor changes include the option to validate event strings. By default this runs `ToLower()` on all event strings passed into the system and so means that "MyEvent" and "myEvent" are the same as far as the event system is concerned.
+
+<br />
 
 ## How event strings now work
 
