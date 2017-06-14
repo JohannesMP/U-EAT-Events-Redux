@@ -100,12 +100,17 @@ The event strings are guaranteed to be initialized to their own name if they are
 
 It is easy to iterate over fields with C# Reflection and Linq and initialize them, but what if someone accesses an event string in a static constructor, who's initialization order might be before that of where we place the initialization logic?
 
-To get around this we levagare the guarantee that C# provides: For any static field/property/function/etc, a static constructor will always be called if they are accessed. Therefore in the example above, even if `Events.Category.SomeEvent` was accessed in a static constructor, C# guarantees that Category's static constructor is run before the value in `SomeEvent` is returned.
+To get around this we leverage the guarantee that C# provides for statics: Before any static field/property/function/etc returns its value, the static constructor will always be called first. 
+
+<br/>
+
+Therefore in the example above, even if `Events.Category.SomeEvent` was accessed in a static constructor, C# guarantees that Category's static constructor is run before the value in `SomeEvent` is returned.
 
 We leverage this by having the `InitAll()` call in every class that contains static readonly event strings.
 
 The first time any static property is accessed in a class with `InitAll()` in its static constructor, that is the moment the logic in `EventSystem/Core/EventCategory.cs` is run to initialize them.
 
+<br/>
 
 To make it easy for users to add their own events, the `Events` class is now `partial` and inherits from EventCategory which provides all contained classes access to `InitAll()`, and means we can easily locate their static readonly strings.
 
