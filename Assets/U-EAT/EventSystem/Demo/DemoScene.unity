@@ -193,12 +193,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ada3f135c66d97a45862f7287063e3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExampleA:
+  EventA:
     AsString: 0
     StoredString: Common.Default
   EventB:
     AsString: 0
-    StoredString: Common.Initialize
+    StoredString: Input.Mouse.MouseDown
   EventC:
     AsString: 0
     StoredString: SomethingUnique
