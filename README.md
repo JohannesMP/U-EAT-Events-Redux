@@ -122,4 +122,4 @@ Currently the category is not automatically stored in an event string. This mean
 
 Currently there is also no check performed to prevent ambiguous events.
 
-It may make sense to Guarantee that event strings will always beforemated as `Category.<OPTIONAL.SUBCATEGORIES>.Name`, which would also elliminate the need for storing the Category as a string in `EventString` for the `PropertyDrawer` (which is only stored in the editor).
+It may make sense to Guarantee that event strings will always be formated as `Category.<OPTIONAL.SUBCATEGORIES>.Name`, which would also elliminate the need for storing the Category as a string in `EventString` for the `PropertyDrawer` (which is only stored in the editor).
