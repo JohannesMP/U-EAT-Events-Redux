@@ -116,6 +116,9 @@ To make it easy for users to add their own events, the `Events` class is now `pa
 
 ## Todo
 
-While the Category/Event dropdowns already update correctly when typing in the string field in the Inspector of an `EventString`, it might be nice to show the user an autocomplete dropdown that shows them potential Category/EventNames they might want to write.
+1. Improve size of `EventString` inspector: Currently it takes up 3 lines. It would be possible to shove the category and event dropdowns onto one line and lose the Labels, but I prefered aligning all three lines. There are probably better solutions though.
+   - *NOTE*: There is an option to hide the dropdown menus alltogether when in string mode. To enable this just change [`CompactWhenString`](Assets/U-EAT/EventSystem/Core/Editor/EventStringPropertyDrawer.cs#L43) to `true`.
 
-However this is very low priority since in that case the user can just use the dropdowns anyways.
+<br>
+
+2. While the Category/Event dropdowns already update correctly when typing in the string field in the Inspector of an `EventString`, it might be nice to show the user an autocomplete dropdown that shows them potential Category/EventNames they might want to write. However this is very low priority since in that case the user can just use the dropdowns anyways.
