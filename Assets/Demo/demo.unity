@@ -136,10 +136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba800de342318dd488e907e53e86e8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEvent:
-    AsString: 1
-    Category: 
-    EventName: MyEvent
+  MyEvent1:
+    AsString: 0
+    Category: CustomEventCategory
+    EventName: CustomEventCategoryEvent
 --- !u!114 &680107626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,9 +152,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MyEvent:
-    AsString: 1
-    Category: Input
-    EventName: MyEvent
+    AsString: 0
+    Category: CustomEventCategory
+    EventName: CustomEventCategoryEvent
 --- !u!4 &680107627
 Transform:
   m_ObjectHideFlags: 0

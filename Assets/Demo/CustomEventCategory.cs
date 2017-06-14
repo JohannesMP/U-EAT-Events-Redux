@@ -18,7 +18,7 @@ namespace UEAT.EventSystem
     {
       static CustomEventCategory() { InitAll(); }
 
-      public static readonly string CustomEventCategoryEvent = "My Blah Event";
+      public static readonly string CustomEventCategoryEvent;
       // Add events Here
     }
   }

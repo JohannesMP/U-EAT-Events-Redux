@@ -7,22 +7,17 @@ using UEAT.EventSystem;
 
 public class EventReceiver : MonoBehaviour
 {
-  public EventString MyEvent = "MyEvent";
+  public EventString MyEvent = Events.CustomEventCategory.CustomEventCategoryEvent;
 
   void Start()
   {
     gameObject.Connect(MyEvent, OnMyEvent);
-    gameObject.Disconnect(MyEvent, this);
   }
 
-  void OnEmptyEvent()
+  void OnMyEvent()
   {
-
+    Debug.Log("EventReceived");
   }
 
-  void OnMyEvent(EventData evt)
-  {
-    Debug.Log("MyEventReceived");
-  }
 }
 
