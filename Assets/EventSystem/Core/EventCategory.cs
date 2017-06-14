@@ -12,13 +12,13 @@ Purpose:
     1. Public static readonly strings
         - By being string fields, typing an event is type safe (no mispelled events)
     2. In a class (or nested in a parent class) that derives from EventCategory.
-        - this class must then call InitAll() in its static constructor.
+        - This class must then call InitAll() in its static constructor.
 
 FAQ:
     Q:  What happens with uninitialized (or empty) event strings?
     A:  The InitAll() call will use reflection to iterate over all string fields, 
         and for each uninitialized string field will assign its name as the value 
-        of the field.
+        of the field, preceded by its category.
 
     Q:  Why are strings readonly instead of const?
     A:  readonly values are computed at runtime. See http://bit.ly/1WT8tmB
@@ -54,12 +54,17 @@ namespace UEAT.EventSystem
     // Example: 'Events' will not show up as a category
     private static readonly bool _ignoreBaseClassCategories = true;
 
+    // What we use to separate the category from the eventName
+    private const char _categoryDivider = '.';
+
     // Map category/namespace to events definitions. Value is cached
     private static Dictionary<string, Dictionary<string, string>> _eventCategoryMap = null;
     public static Dictionary<string, Dictionary<string, string>> EventCategoryMap
     {
       get { InitAll(); return _eventCategoryMap; }
     }
+
+    #region EventNames and EventCategories
 
     // Lazy initialized List of event categories
     private static string[] _eventCategories = null;
@@ -89,7 +94,7 @@ namespace UEAT.EventSystem
 
 
     // Look up the events stored (just keys) in a given event category
-    public static string[] GetEventKeysInCategory(string category)
+    public static string[] GetEventNamesInCategory(string category)
     {
       List<string> toRet = new List<string>();
       foreach(var pair in GetEventDictInCategory(category))
@@ -100,7 +105,7 @@ namespace UEAT.EventSystem
     }
 
     // Look up the events stored (just values) in a given event category
-    public static string[] GetEventNamesInCategory(string category)
+    public static string[] GetEventStringsInCategory(string category)
     {
       List<string> toRet = new List<string>();
       foreach (var pair in GetEventDictInCategory(category))
@@ -112,9 +117,9 @@ namespace UEAT.EventSystem
 
 
     // Look up the event string for an event in a given event category
-    public static string GetEventStringInCategory(string category, string eventName)
+    public static string GetEventNameInCategory(string category, string eventName)
     {
-      if(EventCategoryMap.ContainsKey(category))
+      if (EventCategoryMap.ContainsKey(category))
       {
         if(EventCategoryMap[category].ContainsKey(eventName))
         {
@@ -125,19 +130,45 @@ namespace UEAT.EventSystem
     }
 
     // Try to find the category for a given event
-    public static string GetCategoryForEventString(string eventString)
+    public static string GetCategoryFromEventString(string concatString)
     {
-      foreach(var mapPair in EventCategoryMap)
+      // First assume the string is formated as <CATEGORY><CategoryDivider><EVENT>
+      int categoryIndex = concatString.LastIndexOf(_categoryDivider);
+      if(categoryIndex > 0)
       {
-        var category = mapPair.Key;
-        foreach (var catPair in mapPair.Value)
-        {
-          if (eventString.Equals(catPair.Value))
-            return category;
-        }
+        var category = concatString.Substring(0, categoryIndex);
+
+        if (EventCategoryMap.ContainsKey(category))
+          return category;
       }
+
+      // Otherwise check if the user just provided <CATEGORY> with no divider/event
+      if (EventCategoryMap.ContainsKey(concatString))
+        return concatString;
+
       return null;
     }
+
+    // Given a string formatted as <CATEGORY><CategoryDivider><EVENT>, extract the 'event'
+    public static string GetEventNameFromEventString(string concatString)
+    {
+      int categoryIndex = concatString.LastIndexOf(_categoryDivider) + 1;
+      if (categoryIndex > 1 && categoryIndex < concatString.Length)
+      {
+        var eventName = concatString.Substring(categoryIndex);
+        return eventName;
+      }
+
+      return concatString;
+    }
+
+    public static string ConstructEventString(string category, string eventName)
+    {
+      return category + _categoryDivider + eventName;
+    }
+
+    #endregion
+
 
 
     // Initialize all event Categories
@@ -232,13 +263,15 @@ namespace UEAT.EventSystem
         string value = (string)field.GetValue(null);
 
         if (string.IsNullOrEmpty(value))
-        {
           value = field.Name;
-          field.SetValue(null, value);
-        }
+
+        // Prefix the field's stored value with the category to avoid ambiguity (ex Events.A.Init and Events.B.Init)
+        value = ConstructEventString(category, value);
+
+        field.SetValue(null, value);
 
         // Store Event strings
-        if(!_eventCategoryMap[category].ContainsKey(field.Name))
+        if (!_eventCategoryMap[category].ContainsKey(field.Name))
           _eventCategoryMap[category][field.Name] = value;
         // Really this should never happen...
         else

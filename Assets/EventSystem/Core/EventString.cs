@@ -8,25 +8,17 @@ namespace UEAT.EventSystem
 #if UNITY_EDITOR
     // Whether or not to display a text input box or a dropdown menu.
     public bool AsString = false;
-    // The category this event was located under
-    public string Category;
 #endif
-    public string EventName;
+    public string StoredString;
 
     private void SetEventName(string eventName)
     {
-      EventName = eventName;
-#if UNITY_EDITOR
-      // Try to find the category
-      Category = EventCategory.GetCategoryForEventString(EventName);
-      if (string.IsNullOrEmpty(Category))
-        AsString = true;
-#endif
+      StoredString = eventName;
     }
 
     public EventString()
     {
-      SetEventName(Events.Default.DefaultEvent);
+      SetEventName(Events.Common.Default);
     }
 
     public EventString(string eventName)
@@ -37,13 +29,15 @@ namespace UEAT.EventSystem
     // This class is essentially a string with a fancy inspector.
     public static implicit operator string(EventString value)
     {
-      return value.EventName;
+      return value.StoredString;
     }
 
     public static implicit operator EventString(string value)
     {
       return new EventString(value);
     }
+
+
   }
 
 } // namespace EventSystem

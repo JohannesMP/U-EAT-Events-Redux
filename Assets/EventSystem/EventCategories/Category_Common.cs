@@ -8,11 +8,11 @@ namespace UEAT.EventSystem
   public partial class Events
   {
     // Events.Default
-    public class Default
+    public class Common
     {
-      static Default() { InitAll(); }
+      static Common() { InitAll(); }
 
-      public static readonly string DefaultEvent;
+      public static readonly string Default;
       public static readonly string Create;
       public static readonly string Initialize;
       public static readonly string LogicUpdate;

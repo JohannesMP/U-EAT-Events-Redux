@@ -5,13 +5,13 @@ using System.Collections.Generic;
 // Required to use EventStrings
 using UEAT.EventSystem;
 
-public class EventReceiver : MonoBehaviour
+public class DemoEventReceiver : MonoBehaviour
 {
-  public EventString MyEvent = Events.CustomEventCategory.CustomEventCategoryEvent;
+  public EventString DemoEvent = Events.DEMO.CustomEvent;
 
   void Start()
   {
-    gameObject.Connect(MyEvent, OnMyEvent);
+    gameObject.Connect(DemoEvent, OnMyEvent);
   }
 
   void OnMyEvent()

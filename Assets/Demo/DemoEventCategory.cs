@@ -14,11 +14,11 @@ namespace UEAT.EventSystem
   public partial class Events
   {
     // Events.CustomEventCategory
-    public class CustomEventCategory
+    public class DEMO
     {
-      static CustomEventCategory() { InitAll(); }
+      static DEMO() { InitAll(); }
 
-      public static readonly string CustomEventCategoryEvent;
+      public static readonly string CustomEvent;
       // Add events Here
     }
   }

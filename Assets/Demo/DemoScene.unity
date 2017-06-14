@@ -136,10 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba800de342318dd488e907e53e86e8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEvent1:
+  DemoEvent:
     AsString: 0
-    Category: CustomEventCategory
-    EventName: CustomEventCategoryEvent
+    StoredString: DEMO.CustomEvent
 --- !u!114 &680107626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,10 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1261a13d52425854d9fd2160e71f3079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEvent:
+  DemoEvent:
     AsString: 0
-    Category: CustomEventCategory
-    EventName: CustomEventCategoryEvent
+    StoredString: DEMO.CustomEvent
 --- !u!4 &680107627
 Transform:
   m_ObjectHideFlags: 0
@@ -195,18 +193,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ada3f135c66d97a45862f7287063e3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExampleA:
+    AsString: 0
+    StoredString: Common.Default
+  EventB:
+    AsString: 0
+    StoredString: Common.Initialize
   EventC:
     AsString: 0
-    Category: Default
-    EventName: DefaultEvent
-  EventA:
-    AsString: 0
-    Category: Default
-    EventName: Initialize
-  EventB:
-    AsString: 1
-    Category: 
-    EventName: SomethingUnique
+    StoredString: SomethingUnique
 --- !u!4 &842740241
 Transform:
   m_ObjectHideFlags: 0

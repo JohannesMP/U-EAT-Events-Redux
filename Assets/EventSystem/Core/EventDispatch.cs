@@ -21,7 +21,7 @@ namespace UEAT.EventSystem
 
   public static class EventDispatch
   {
-    public static readonly bool IgnoreEventCase = true;
+    public static readonly bool IgnoreEventCase = false;
 
     // An empty EventData object to be used when no data needs to be passed.
     public static EventData DefaultEvent = new EventData();

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 // Required to use EventStrings
 using UEAT.EventSystem;
 
-public class EventStringExamples : MonoBehaviour
+public class DemoEventStringExamples : MonoBehaviour
 {
   // Default initialization
-  public EventString EventC;
+  public EventString EventA;
   // Initialize with a stored event string
-  public EventString EventA = Events.Default.Initialize;
+  public EventString EventB = Events.Input.Mouse.MouseDown;
   // Initialize with string that does not correspond to a stored event
-  public EventString EventB = "SomethingUnique";
+  public EventString EventC = "SomethingUnique";
 }
 

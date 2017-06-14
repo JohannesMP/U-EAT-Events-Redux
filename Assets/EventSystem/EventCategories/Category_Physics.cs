@@ -9,18 +9,18 @@ namespace UEAT.EventSystem
     {
       static Physics() { InitAll(); }
 
-      // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider.
-      public static readonly string OnCollisionEnter;
+      // Called when this collider/rigidbody has begun touching another rigidbody/collider.
+      public static readonly string CollisionEnter;
       // Sent when an incoming collider makes contact with this object's collider (2D physics only).
-      public static readonly string OnCollisionEnter2D;
+      public static readonly string CollisionEnter2D;
       // OnCollisionExit is called when this collider/rigidbody has stopped touching another rigidbody/collider.
-      public static readonly string OnCollisionExit;
+      public static readonly string CollisionExit;
       // Sent when a collider on another object stops touching this object's collider (2D physics only).
-      public static readonly string OnCollisionExit2D;
-      // OnCollisionStay is called once per frame for every collider/rigidbody that is touching rigidbody/collider.
-      public static readonly string OnCollisionStay;
+      public static readonly string CollisionExit2D;
+      // Called once per frame for every collider/rigidbody that is touching rigidbody/collider.
+      public static readonly string CollisionStay;
       // Sent each frame where a collider on another object is touching this object's collider (2D physics only).
-      public static readonly string OnCollisionStay2D;
+      public static readonly string CollisionStay2D;
     }
   }
 }

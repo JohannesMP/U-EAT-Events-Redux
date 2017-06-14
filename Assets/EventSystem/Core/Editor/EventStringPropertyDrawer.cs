@@ -59,17 +59,14 @@ namespace UEAT.EventSystem
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-      var eventNameRef = property.FindPropertyRelative("EventName");
-      var categoryRef = property.FindPropertyRelative("Category");
+      var eventNameRef = property.FindPropertyRelative("StoredString");
       var asStringRef = property.FindPropertyRelative("AsString");
 
       LastEvents.AsString = asStringRef.boolValue;
-      LastEvents.Category = categoryRef.stringValue;
-      LastEvents.EventName = eventNameRef.stringValue;
+      LastEvents.StoredString = eventNameRef.stringValue;
       LastEvents = Draw(position, LastEvents, label);
 
-      eventNameRef.stringValue = LastEvents.EventName;
-      categoryRef.stringValue = LastEvents.Category;
+      eventNameRef.stringValue = LastEvents.StoredString;
       asStringRef.boolValue = LastEvents.AsString;
       property.serializedObject.ApplyModifiedProperties();
     }
@@ -138,7 +135,7 @@ namespace UEAT.EventSystem
         eventString.AsString = EditorGUI.ToggleLeft(leftPropRect, ToggleLabel, eventString.AsString, labelStyle);
 
         EditorGUI.BeginDisabledGroup(!eventString.AsString);
-        eventString.EventName = EditorGUI.TextField(rightPropRect, eventString.EventName);
+        eventString.StoredString = EditorGUI.TextField(rightPropRect, eventString.StoredString);
         EditorGUI.EndDisabledGroup();
 
         // Early exit if configured to not show dropdowns when in string mode
@@ -146,6 +143,8 @@ namespace UEAT.EventSystem
           return eventString;
       }
 
+
+      var category = EventCategory.GetCategoryFromEventString(eventString.StoredString);
 
       // Second and Third Property row are disabled when string mode is active
       EditorGUI.BeginDisabledGroup(eventString.AsString);
@@ -157,18 +156,33 @@ namespace UEAT.EventSystem
 
           EditorGUI.LabelField(leftPropRect, "Category", labelStyle);
 
-          // Check if the currently stored category is in the list of categories (since we need the index for the dropdown array)
-          int categoryIndex = IndexOf(EventCategories, eventString.Category);
-      
-          // When not found add default and adjust index
-          if (categoryIndex < 0)
-            categoryIndex = EditorGUI.Popup(rightPropRect, 0, ConcatArrays(new string[] { "-" }, EventCategories)) - 1;
-          else
-            categoryIndex = EditorGUI.Popup(rightPropRect, categoryIndex, EventCategories);
 
-          // User selected a valid category, so store it
+          // Check if the currently stored category is in the list of categories (since we need the index for the dropdown array)
+          int categoryIndex = IndexOf(EventCategories, category);
+
+
+          // When not found add default and select it
+          if (categoryIndex < 0)
+          {
+            categoryIndex = EditorGUI.Popup(rightPropRect, 0, ConcatArrays(new string[] { "-" }, EventCategories)) - 1;
+          }
+          else
+          {
+            categoryIndex = EditorGUI.Popup(rightPropRect, categoryIndex, EventCategories);
+          }
+
+
+
+          // User selected a valid category
           if (categoryIndex >= 0)
-            eventString.Category = EventCategories[categoryIndex];
+          {
+            // And a category that is different than before
+            if(!EventCategories[categoryIndex].Equals(category))
+            {
+              category = EventCategories[categoryIndex];
+              eventString.StoredString = EventCategory.ConstructEventString(category, "");
+            }
+          }
         }
 
         // Third Property Row
@@ -176,23 +190,36 @@ namespace UEAT.EventSystem
           leftPropRect.y += InspectorValues.RowHeight;
           rightPropRect.y += InspectorValues.RowHeight;
 
+          EditorGUI.BeginDisabledGroup(category == null);
           EditorGUI.LabelField(leftPropRect, "Event", labelStyle);
 
-          // Get the events for this category, prefixing an empty element to represent no choice
-          var eventKeys = EventCategory.GetEventKeysInCategory(eventString.Category);
-
-          // Check if the currently stored eventName is in the list of eventNames
-          int eventIndex = IndexOf(EventCategory.GetEventNamesInCategory(eventString.Category), eventString.EventName);
-          
-          // When not found add default and adjust index
-          if (eventIndex < 0)
-            eventIndex = EditorGUI.Popup(rightPropRect, 0, ConcatArrays(new string[] { "-" }, eventKeys)) - 1;
+          // No valid category selected yet
+          if(category == null)
+          {
+            EditorGUI.Popup(rightPropRect, 0, new string[] { "-" });
+          }
+          // We have a valid category
           else
-            eventIndex = EditorGUI.Popup(rightPropRect, eventIndex, eventKeys);
+          {
+            // Get the events for this category, prefixing an empty element to represent no choice
+            var eventNames = EventCategory.GetEventNamesInCategory(category);
 
-          // User selected a valid eventName so store it
-          if (eventIndex >= 0)
-            eventString.EventName = EventCategory.GetEventStringInCategory(eventString.Category, eventKeys[eventIndex]);
+            // Check if the currently stored eventString is in the list of eventNames
+            int eventIndex = IndexOf(EventCategory.GetEventStringsInCategory(category), eventString.StoredString);
+
+            // When not found add default and adjust index
+            if (eventIndex < 0)
+              eventIndex = EditorGUI.Popup(rightPropRect, 0, ConcatArrays(new string[] { "-" }, eventNames)) - 1;
+            else
+              eventIndex = EditorGUI.Popup(rightPropRect, eventIndex, eventNames);
+
+            // User selected a valid eventName so store it
+            if (eventIndex >= 0)
+            {
+              eventString.StoredString = EventCategory.GetEventNameInCategory(category, eventNames[eventIndex]);
+            }
+          }
+          EditorGUI.EndDisabledGroup();
         }
 
       }
