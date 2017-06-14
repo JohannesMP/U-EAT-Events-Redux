@@ -1,3 +1,14 @@
+/*!**************************************************************************
+\file   EventString.cs
+\author Filiecs
+\author JohannesMP
+\brief
+
+This class represents a single Event string to be used for sending events.
+
+\copyright © 2016-2017 CC
+*****************************************************************************/
+
 using UnityEngine;
 
 namespace UEAT.EventSystem

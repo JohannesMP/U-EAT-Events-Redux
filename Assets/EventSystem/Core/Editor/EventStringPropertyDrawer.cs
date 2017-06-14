@@ -1,3 +1,16 @@
+/*!**************************************************************************
+\file   EventStringPropertyDrawer.cs
+\author Filiecs
+\author JohannesMP
+\brief
+
+The custom editor drawer for EventString objects.
+When created as a public variable displays a UI for manually entering an
+event string, or choosing from a Category/Event dropdown.
+
+\copyright © 2016-2017 CC
+*****************************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,3 +1,15 @@
+/*!**************************************************************************
+\file   EventData.cs
+\author Filiecs
+\author JohannesMP
+\brief
+
+This file defines the base EventData vlass used to send date in the event
+system, as well as several common types that derive from it.
+
+\copyright © 2016-2017 CC
+*****************************************************************************/
+
 using UnityEngine;
 
 namespace UEAT.EventSystem

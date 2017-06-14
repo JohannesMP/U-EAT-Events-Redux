@@ -1,5 +1,4 @@
-﻿/****************************************************************************/
-/*!
+﻿/*!**************************************************************************
 \file   EventHandler.cs
 \par    Email: Support@U-EAT.org
 \par    Developed: Summer 2016
@@ -9,9 +8,8 @@ This file contains the EventHandler class. This class manages what events
 this object is listening to and what functions should be called when it
 recieves an event.
 
-© 2016 U-EAT CC Attribution
-*/
-/****************************************************************************/
+\copyright © 2016-2017 CC
+*****************************************************************************/
 using UnityEngine;
 using System.Collections.Generic;
 using System;

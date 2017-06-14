@@ -1,18 +1,26 @@
-/*===============================================================
- Author:    JohannesMP
-Product:    EventsCategoryRedux
-Created:    07/06/2017 19:34
-Purpose:    
-    Adds nested categories to 'Events' in 'EventSystem' from U-EAT.org
+/*!**************************************************************************
+\file   EventCategory.cs
+\author Filiecs
+\author JohannesMP
+\brief 
 
-    This class marks any class that derives from it (as well as nested classes)
-    as candidates for defining a category of events.
+Maintains Categories for events.
 
-    All events defined in this event system must be:
-    1. Public static readonly strings
-        - By being string fields, typing an event is type safe (no mispelled events)
-    2. In a class (or nested in a parent class) that derives from EventCategory.
-        - This class must then call InitAll() in its static constructor.
+This class marks any class that derives from it (as well as nested classes)
+as candidates for defining a category of events.
+
+  To be registered as valid events a string must be
+    1. Defined as public static readonly
+    2. In (or have in its class tree) a class that inherits from EventCategory
+       (which partial class Events is)
+    3. In a class that has a static consttructor that calls InitAll().
+
+  Side effects of being a valid event string:
+    1. If Empty/Null/Undefined, will be initialized with its variable name.
+    2. Will have its string value prefixed by its category.
+
+
+\details
 
 FAQ:
     Q:  What happens with uninitialized (or empty) event strings?
@@ -35,7 +43,8 @@ FAQ:
         the event strings that are defined.
         - The point of this is for custom editor inspectors for selecting events.
 
-================================================================*/
+\copyright © 2016-2017 CC
+*****************************************************************************/
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
