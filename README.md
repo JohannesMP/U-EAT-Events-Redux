@@ -95,7 +95,7 @@ public class EventDemo : MonoBehaviour {
 
 ### What is happening
 
-The event strings are guaranteed to be initialized to their own name if they are left empty or null, and all event strings are prefixed with their Category - the string of classes they are inside of, which by default does not count 'Events' (this can be toggled in [`EventCategory._ignoreBaseClassCategories`](Assets/U-EAT/EventSystem/Core/EventCategory.cs#L64)).
+The event strings are guaranteed to be initialized to their own name if they are left empty or null, and all event strings are prefixed with their Category - the string of classes they are inside of, which by default does not count 'Events' (this can be toggled in [`IgnoreBaseClassCategories`](Assets/U-EAT/EventSystem/Core/EventCategory.cs#L63)).
 
 It is easy to iterate over fields with C# Reflection and Linq and initialize them, but what if someone accesses an event string in a static constructor, who's initialization order might be before that of where we place the initialization logic?
 
