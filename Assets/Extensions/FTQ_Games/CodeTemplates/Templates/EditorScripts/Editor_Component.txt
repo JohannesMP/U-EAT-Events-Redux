@@ -1,0 +1,44 @@
+"Editor Script/Component"
+/*===============================================================
+Company:    #COMPANY_NAME#
+Product:    #PROJECT_NAME#
+Created:    #CREATION_DATE#
+Purpose:    <TYPE PURPOSE HERE>
+================================================================*/
+#UNITY_STANDARD_NAMESPACES#
+#SIRENIX_ODIN_NAMESPACES#
+
+namespace #PROJECT_ROOT_NAMESPACE#
+{
+
+#if UNITY_EDITOR
+#UNITY_EDITOR_NAMESPACES#
+  [ExecuteInEditMode]
+#endif
+  public class ##NAME## : MonoBehaviour
+  {
+#if UNITY_EDITOR
+    void OnEnable ()  { EditorApplication.update += OnEditorUpdate; }
+    void OnDisable () { EditorApplication.update -= OnEditorUpdate; }
+#endif
+
+
+    void Start ()
+    {
+      Debug.Log(gameObject.name + " Start!");
+    }
+
+    // Guaranteed to be called every editor tick update
+    void OnEditorUpdate ()
+    {
+      //Debug.Log(gameObject.name + " Editor Update!");
+    }
+
+    // Only called when this object is interacted with in the editor.
+    void Update()
+    {
+      //Debug.Log(gameObject.name + " Regular Update!");
+    }
+  }
+
+} // namespace #PROJECT_ROOT_NAMESPACE#

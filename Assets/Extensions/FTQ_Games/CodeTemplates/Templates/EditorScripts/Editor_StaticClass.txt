@@ -1,0 +1,30 @@
+"Editor Script/Static Class"
+/*===============================================================
+Company:    #COMPANY_NAME#
+Product:    #PROJECT_NAME#
+Created:    #CREATION_DATE#
+Purpose:    <TYPE PURPOSE HERE>
+================================================================*/
+#UNITY_STANDARD_NAMESPACES#
+#UNITY_EDITOR_NAMESPACES#
+#SIRENIX_ODIN_NAMESPACES#
+
+namespace #PROJECT_ROOT_NAMESPACE#
+{
+
+  [InitializeOnLoad]
+  public static class ##NAME##
+  {
+    static ##NAME## ()
+    {
+      Debug.Log("Editor Class ##NAME## Constructed");
+      EditorApplication.update += OnEditorUpdate;
+    }
+
+    static void OnEditorUpdate()
+    {
+      //Debug.Log("Editor Class ##NAME## Editor Update");
+    }
+  }
+
+} // namespace #PROJECT_ROOT_NAMESPACE#

@@ -1,0 +1,21 @@
+"General Script/Static Class"
+/*===============================================================
+Company:    #COMPANY_NAME#
+Product:    #PROJECT_NAME#
+Created:    #CREATION_DATE#
+Purpose:    <TYPE PURPOSE HERE>
+================================================================*/
+#UNITY_STANDARD_NAMESPACES#
+
+namespace #PROJECT_ROOT_NAMESPACE#
+{
+
+  public static class ##NAME##
+  {
+    static ##NAME## ()
+    {
+      Debug.Log("Static class ##NAME## Constructed");
+    }
+  }
+
+} // namespace #PROJECT_ROOT_NAMESPACE#

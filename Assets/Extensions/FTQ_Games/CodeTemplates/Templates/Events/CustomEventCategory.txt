@@ -1,0 +1,25 @@
+"General Script/Event Category"
+/*===============================================================
+Company:    #COMPANY_NAME#
+Product:    #PROJECT_NAME#
+Created:    #CREATION_DATE#
+Purpose:    <TYPE PURPOSE HERE>
+================================================================*/
+#UNITY_STANDARD_NAMESPACES#
+
+namespace #PROJECT_EVENTS_NAMESPACE#
+{
+
+  public partial class Events
+  {
+    // Events.##NAME##
+    public class ##NAME##
+    {
+      static ##NAME##() { InitAll(); }
+
+      public static readonly string ##NAME##Event;
+      // Add events Here
+    }
+  }
+
+} // namespace #PROJECT_EVENTS_NAMESPACE#

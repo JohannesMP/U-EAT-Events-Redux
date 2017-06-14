@@ -1,0 +1,12 @@
+using UnityEditor;
+using UnityEngine;
+
+namespace FTQ
+{
+  public class CodeTemplatesMenuItems
+  {
+    private const string MENU_ITEM_PATH = "Assets/Create/";
+    private const int MENU_ITEM_PRIORITY = 70;
+    ##CODE##
+  }
+}

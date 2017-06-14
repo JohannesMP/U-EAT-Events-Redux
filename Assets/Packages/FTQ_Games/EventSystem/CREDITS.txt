@@ -1,0 +1,3 @@
+Based on Events in U-EAT v1.0 by Filiecs under CC
+- U-EAT: http://u-eat.org/
+- Asset store: https://www.assetstore.unity3d.com/en/#!content/64222

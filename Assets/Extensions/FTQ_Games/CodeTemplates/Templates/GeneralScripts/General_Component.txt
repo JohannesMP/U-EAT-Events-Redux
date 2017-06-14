@@ -1,0 +1,22 @@
+"General Script/Component"
+/*===============================================================
+Company:    #COMPANY_NAME#
+Product:    #PROJECT_NAME#
+Created:    #CREATION_DATE#
+Purpose:    <TYPE PURPOSE HERE>
+================================================================*/
+#UNITY_STANDARD_NAMESPACES#
+#SIRENIX_ODIN_NAMESPACES#
+
+namespace #PROJECT_ROOT_NAMESPACE#
+{
+
+  public class ##NAME## : MonoBehaviour
+  {
+    void Start()
+    {
+      Debug.Log(gameObject.name + " Start!");
+    }
+  }
+
+} // namespace #PROJECT_ROOT_NAMESPACE#

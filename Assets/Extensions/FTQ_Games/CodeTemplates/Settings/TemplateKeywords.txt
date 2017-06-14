@@ -1,0 +1,46 @@
+// Header Values
+
+#CREATION_DATE#
+[Time]
+
+#PROJECT_NAME#
+[PlayerSettings.productName]
+
+#COMPANY_NAME#
+[PlayerSettings.companyName]
+
+
+// Single namespaces (for wrapping)
+
+#PROJECT_ROOT_NAMESPACE#
+FTQ
+
+#PROJECT_EVENTS_NAMESPACE#
+FTQ.EventSystem
+
+// using namespaces
+
+#PROJECT_STANDARD_NAMESPACES#
+
+
+
+
+#SIRENIX_ODIN_NAMESPACES#
+using Sirenix.OdinInspector;\
+using Sirenix.Serialization;\
+using Sirenix.Utilities;
+
+
+// Unity Namespaces
+
+#UNITY_STANDARD_NAMESPACES#
+using UnityEngine;\
+using System.Collections;\
+using System.Collections.Generic;
+
+#UNITY_EDITOR_NAMESPACES#
+using UnityEditor; // WARNING: This script must be in an 'Editor' folder
+
+#UNITY_GRAPHICS_NAMESPACES#
+using UnityEditor.Graphics;
+
