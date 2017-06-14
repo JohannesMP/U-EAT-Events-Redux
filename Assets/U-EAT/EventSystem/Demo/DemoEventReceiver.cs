@@ -5,9 +5,10 @@ using System.Collections.Generic;
 // Required to use EventStrings
 using UEAT.EventSystem;
 
+
 public class DemoEventReceiver : MonoBehaviour
 {
-  public EventString DemoEvent = Events.DEMO.CustomEvent;
+  public EventString DemoEvent = DemoEvents.DEMO.CustomEvent;
 
   void Start()
   {

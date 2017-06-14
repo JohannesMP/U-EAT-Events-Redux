@@ -6,7 +6,7 @@ using UEAT.EventSystem;
 
 public class DemoEventSender : MonoBehaviour
 {
-  public EventString DemoEvent = Events.DEMO.CustomEvent;
+  public EventString DemoEvent = DemoEvents.DEMO.CustomEvent;
 
   void Update()
   {

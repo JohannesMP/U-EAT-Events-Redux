@@ -2,19 +2,16 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace UEAT.EventSystem
+// Events don't need to be in UEAT namespace, but must have
+// Base class that inherits from UEAT.EventSystem.EventCategory
+public partial class DemoEvents : UEAT.EventSystem.EventCategory
 {
-
-  public partial class Events
+  // DemoEvents.DEMO
+  public class DEMO
   {
-    // Events.DEMO
-    public class DEMO
-    {
-      static DEMO() { InitAll(); }
+    static DEMO() { InitAll(); }
 
-      public static readonly string CustomEvent;
-      // Add events Here
-    }
+    public static readonly string CustomEvent;
+    // Add events Here
   }
-
-} // namespace FTQ.EventSystem
+}
