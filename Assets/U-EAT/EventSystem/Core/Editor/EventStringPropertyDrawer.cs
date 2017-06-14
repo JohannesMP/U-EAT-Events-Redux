@@ -41,46 +41,41 @@ namespace UEAT.EventSystem
   {
     // Will hide the Category/Event dropdowns when in string mode
     static bool CompactWhenString = false;
-
-    // All event categories
-    static string[] EventCategories;
-
     // The width of the toggle button.
     const float ToggleWidth = 60;
-
     // The margins around the property box
     const float PropertyBoxMargins = 3;
-
-    // How many lines the GUI for this field is tall.
-    const float RowCount = 3;
-
     // What fraction of the width Is used by the category field (vs what is used by the event field)
     const float CategoryWidthPercent = 1.0f / 3.0f;
 
-    // Dropdown label
-    public static readonly GUIStyle labelStyle;
+    // How many lines the GUI for this field is tall.
+    const float RowCount = 3;
+    // Cached event categories
+    static readonly string[] EventCategories;
+    // For right-aligned labels
+    static readonly GUIStyle LabelStyle;
 
-    static EventString LastEvents = new EventString();
+    static EventString LastEventString = new EventString();
 
     static EventStringPropertyDrawer()
     {
-      labelStyle = new GUIStyle(GUI.skin.label);
-      labelStyle.alignment = TextAnchor.UpperRight;
+      LabelStyle = new GUIStyle(GUI.skin.label);
+      LabelStyle.alignment = TextAnchor.UpperRight;
       EventCategories = EventCategory.GetEventCategories();
       System.Array.Sort(EventCategories);
     }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-      var eventNameRef = property.FindPropertyRelative("StoredString");
+      var eventNameRef = property.FindPropertyRelative("Value");
       var asStringRef = property.FindPropertyRelative("AsString");
 
-      LastEvents.AsString = asStringRef.boolValue;
-      LastEvents.StoredString = eventNameRef.stringValue;
-      LastEvents = Draw(position, LastEvents, label);
+      LastEventString.AsString = asStringRef.boolValue;
+      LastEventString.Value = eventNameRef.stringValue;
+      LastEventString = Draw(position, LastEventString, label);
 
-      eventNameRef.stringValue = LastEvents.StoredString;
-      asStringRef.boolValue = LastEvents.AsString;
+      eventNameRef.stringValue = LastEventString.Value;
+      asStringRef.boolValue = LastEventString.AsString;
       property.serializedObject.ApplyModifiedProperties();
     }
 
@@ -94,11 +89,6 @@ namespace UEAT.EventSystem
       // Top, bottom and divider between text field and dropdowns
       else
         return InspectorValues.RowHeight * RowCount + PropertyBoxMargins*3; 
-    }
-
-    static void DrawButton(Rect pos, string text = null, Color? color = null)
-    {
-      EditorGUI.Popup(pos, "", 0, new string[] { text, "b", "c" });
     }
 
     static public EventString Draw(Rect position, object eventStringObj, GUIContent content)
@@ -145,10 +135,10 @@ namespace UEAT.EventSystem
       // First Property Row
       {
         var ToggleLabel = eventString.AsString ? "String" : "Type";
-        eventString.AsString = EditorGUI.ToggleLeft(leftPropRect, ToggleLabel, eventString.AsString, labelStyle);
+        eventString.AsString = EditorGUI.ToggleLeft(leftPropRect, ToggleLabel, eventString.AsString, LabelStyle);
 
         EditorGUI.BeginDisabledGroup(!eventString.AsString);
-        eventString.StoredString = EditorGUI.TextField(rightPropRect, eventString.StoredString);
+        eventString.Value = EditorGUI.TextField(rightPropRect, eventString.Value);
         EditorGUI.EndDisabledGroup();
 
         // Early exit if configured to not show dropdowns when in string mode
@@ -167,7 +157,7 @@ namespace UEAT.EventSystem
           leftPropRect.y += InspectorValues.RowHeight + PropertyBoxMargins;
           rightPropRect.y += InspectorValues.RowHeight + PropertyBoxMargins;
 
-          EditorGUI.LabelField(leftPropRect, "Category", labelStyle);
+          EditorGUI.LabelField(leftPropRect, "Category", LabelStyle);
 
           // Check if the currently stored category is in the list of categories (since we need the index for the dropdown array)
           int categoryIndex = IndexOf(EventCategories, category);
@@ -189,7 +179,7 @@ namespace UEAT.EventSystem
             if(!EventCategories[categoryIndex].Equals(category))
             {
               category = EventCategories[categoryIndex];
-              eventString.StoredString = EventCategory.ConstructEventString(category, "");
+              eventString.Value = EventCategory.ConstructEventString(category, "");
             }
           }
         }
@@ -200,7 +190,7 @@ namespace UEAT.EventSystem
           rightPropRect.y += InspectorValues.RowHeight;
 
           EditorGUI.BeginDisabledGroup(category == null);
-          EditorGUI.LabelField(leftPropRect, "Event", labelStyle);
+          EditorGUI.LabelField(leftPropRect, "Event", LabelStyle);
 
           // No valid category selected yet
           if(category == null)
@@ -214,7 +204,7 @@ namespace UEAT.EventSystem
             var eventNames = EventCategory.GetEventNamesInCategory(category);
 
             // Check if the currently stored eventString is in the list of eventNames
-            int eventIndex = IndexOf(EventCategory.GetEventStringsInCategory(category), eventString.StoredString);
+            int eventIndex = IndexOf(EventCategory.GetEventStringsInCategory(category), eventString.Value);
 
             // When not found add default and adjust index
             if (eventIndex < 0)
@@ -225,7 +215,7 @@ namespace UEAT.EventSystem
             // User selected a valid eventName so store it
             if (eventIndex >= 0)
             {
-              eventString.StoredString = EventCategory.GetEventNameInCategory(category, eventNames[eventIndex]);
+              eventString.Value = EventCategory.GetEventNameInCategory(category, eventNames[eventIndex]);
             }
           }
           EditorGUI.EndDisabledGroup();

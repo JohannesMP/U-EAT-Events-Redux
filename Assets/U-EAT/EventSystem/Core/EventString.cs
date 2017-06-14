@@ -21,38 +21,34 @@ namespace UEAT.EventSystem
     // Whether or not to display a text input box or a dropdown menu.
     public bool AsString = false;
 #endif
-    public string StoredString;
+    public string Value;
 
-    private void SetEventName(string eventName)
-    {
-      StoredString = eventName;
-    }
 
     public EventString()
     {
-      SetEventName(Events.Common.Default);
+      Value = Events.Common.Default;
     }
 
-    public EventString(string eventName)
+    public EventString(string eventString)
     {
-      SetEventName(eventName);
+      Value = eventString;
     }
 
 
     public string GetEventName()
     {
-      return EventCategory.GetEventNameFromEventString(StoredString);
+      return EventCategory.GetEventNameFromEventString(Value);
     }
 
     public string GetEventCategory()
     {
-      return EventCategory.GetCategoryFromEventString(StoredString);
+      return EventCategory.GetCategoryFromEventString(Value);
     }
 
 
     public static implicit operator string(EventString value)
     {
-      return value.StoredString;
+      return value.Value;
     }
 
     public static implicit operator EventString(string value)
