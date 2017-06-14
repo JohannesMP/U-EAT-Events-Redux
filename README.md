@@ -115,4 +115,10 @@ The first time any static property is accessed in a class with `InitAll()` in it
 To make it easy for users to add their own events, the `Events` class is now `partial` and inherits from EventCategory which provides all contained classes access to `InitAll()`, and means we can easily locate their static readonly strings.
 
 
+## Potential Changes
 
+Currently the category is not automatically stored in an event string. This means that categories that contain the same event string, for example `Events.A.Init` and `Events.B.Init`, would be ambiguous.
+
+Currently there is also no check performed to prevent ambiguous events.
+
+It may make sense to Guarantee that event strings will always beforemated as `Category.<OPTIONAL.SUBCATEGORIES>.Name`, which would also elliminate the need for storing the Category as a string in `EventString` for the `PropertyDrawer` (which is only stored in the editor).
