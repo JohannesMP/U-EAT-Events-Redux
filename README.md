@@ -12,7 +12,7 @@ A redux of the U-EAT event system: http://u-eat.org/events.html
 3. No longer require event strings to be initialized manually (ex: `static readonly string LogicUpdate = "LogicUpdate"`.
 4. Allow Functions without an `EventData` argument to be Connected/Disconnected to an event string.
 
-All of these goals have been completed.
+All of these goals have been completed. See 'Todo' section at the bottom of this readme for some potential future changes.
 
 <br>
 
@@ -116,7 +116,7 @@ The first time any static property is accessed in a class with `InitAll()` in it
 To make it easy for users to add their own events, the `Events` class is now `partial` and inherits from EventCategory which provides all contained classes access to `InitAll()`, and means we can easily locate their static readonly strings.
 
 
-## Potential Changes
+## Todo
 
 Currently the category is not automatically stored in an event string. This means that categories that contain the same event string, for example `Events.A.Init` and `Events.B.Init`, would be ambiguous.
 
