@@ -27,7 +27,7 @@ Everything to do with the event system is now in a new `UEAT.EventSystem` namesp
 
 Users need to add `using UEAT.EventSystem` if they want to use it in their code.
 
-Therefore the `EventSystem` class was renamed to `EventDispatch` to avoid name ambiguity, and `EventSystem/EventSystem.cs` is now [`EventSystem/Core/EventDispatch.cs`](master/Assets/U-EAT/EventSystem/Core/EventDispatch.cs)
+Therefore the `EventSystem` class was renamed to `EventDispatch` to avoid name ambiguity, and `EventSystem/EventSystem.cs` is now [`EventSystem/Core/EventDispatch.cs`](Assets/U-EAT/EventSystem/Core/EventDispatch.cs)
 
 
 ### 2. Events property and static string changes
