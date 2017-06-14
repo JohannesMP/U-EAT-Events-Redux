@@ -13,22 +13,45 @@ All of these goals have been completed.
 
 ## General Change Overview
 
-- Wrapped everything in new `UEAT.EventSystem` namespace.
+Here is an overview of the changes made:
 
-- `EventSystem` class renamed to `EventDispatch` to avoid name ambiguity.
-  - `EventSystem/EventSystem.cs` is now `EventSystem/Core/EventDispatch.cs`
 
-- `Events.cs` broken up into logical parts:
-  1. `EventData` definitions and types moved to `EventSystem/Core/EventData.cs`
-  2. `Events` static event strings:
-     - Can be stored accessed and defined through nested categories (classes)
-     - If empty or null, are dynamically initialized with a string corresponding to each field's name
-     - With defaults now located in `EventSystem/EventCategories/` (more detail below)
-  3. `Events` non-static serializable class renamed to `EventString`, now found in `Core/EventString.cs`
-     - Associated `EventPropertyDrawer` renamed `EventStringPropertyDrawer`, now found in `EventSystem/Core/Editor/EventStringPropertyDrawer.cs`
-     - `EventStringPropertyDrawer` updated to allow user to select events by category in the Inspector.
-  
-- `EventHandler` and `EventDispatch` (formerly `EventSystem`) now support Connecting/Disconnecting Actions that take no arguments.
+### Namespace
+
+Everything to do with the event system is now in a new `UEAT.EventSystem` namespace.
+users need to add `using UEAT.EventSystem` if they want to use it in their code.
+
+Therefore `EventSystem` class renamed to `EventDispatch` to avoid name ambiguity, and `EventSystem/EventSystem.cs` is now `EventSystem/Core/EventDispatch.cs`
+
+
+### Events - property and static strings
+
+`Events.cs` originally served three purposes:
+1. It defined several `static readonly String` fields for identifying events in the event system.
+2. It defined the `Events` class used to select an event, along with a custom PropertyDrawer.
+3. It defined various `EventData` types for convenience.
+
+These three parts have been broken up:
+1. The `static readonly String` events are still inside the `Events` class, but it is now partial to allow being split into multiple files. The original default event strings are now located in the files in `EventSystem/EventCategories/`.
+  - The strings are now initialized dynamically to the field's name if they are left uninitialized, null or empty.
+  - The strings are also now divided into sub-classes which are treated as categories corresponding to their name, and to allow the fields to be initialized correctly, each class containing the event strings must have a static constructor that calls `InitAll()` which is inherited from the containing `Events` class.
+2. `Events` (the non-static class for selecting event strings) is now `EventString`, and its `EventPropertyDrawer` is now `EventStringPropertyDrawer`, located in `EventSystem/Core/EventString.cs` and `EventSystem/Core/Editor/EventStringPropertyDrawer.cs` respectively.
+  - The propertydrawer also now has two dropdowns, one first for the category, and then for the event itself.
+3. The `EventData` types moved to `EventSystem/Core/EventData.cs`
+
+For more information see **How event strings now work** section below.
+
+
+### Functions without arguments
+
+The `EventDispatch` (formerly `EventSystem`) and the `EventHandler` class both now support Connecting functions without arguments, as well as functions that accept an `EventData` instance.
+
+This is accomplished by wrapping any `Action` without arguments in a wrapper `Action<EventData>`. When the event is dispatched, the `Action<EvendData>` wrapper simply calls the `Action` that it wraps.
+
+To ensure that Connecting an action multiple times will result in the same wrapper, `EventHandler` now also stores a `CallbackWrapperList` Dictionary.
+
+Similarly, to ensure that `EventDisconnect(string eventName, object thisPointer)` still works, `EventHandler` also stores the inverse mapping `WrapperCallbackList`. This is necessary since the events are removed by looking at the `Target` property of each stored `Action<EventData`, but the wrapper does have that same Target. We use `WrapperCallbackList` to quickly locate the original `Action` and then compare against its `Target` instead.
+
 
 ---------
 
