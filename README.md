@@ -95,7 +95,7 @@ public class EventDemo : MonoBehaviour {
 }
 ```
 
-### How Static Event strings work
+### What is happening
 
 The event strings are guaranteed to be initialized to their own name if they are left empty or null. 
 
