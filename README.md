@@ -33,7 +33,7 @@ Therefore the `EventSystem` class was renamed to `EventDispatch` to avoid name a
 ### 2. Events property and static string changes
 
 `Events.cs` originally served three purposes:
-1. It defined several `static readonly String` fields for identifying events in the event system.
+1. It defined several `static readonly String` fields corresponding to events in the event system.
 2. It defined the `Events` class used to select an event, along with a custom PropertyDrawer.
 3. It defined various `EventData` types for convenience.
 
