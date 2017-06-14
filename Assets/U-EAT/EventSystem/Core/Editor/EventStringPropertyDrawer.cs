@@ -91,7 +91,7 @@ namespace UEAT.EventSystem
       // Compact string view, only a single row and margins
       if (CompactWhenString && asString)
         return InspectorValues.RowHeight + PropertyBoxMargins * 2;
-      // top, bottom and divider between text field and dropdowns
+      // Top, bottom and divider between text field and dropdowns
       else
         return InspectorValues.RowHeight * RowCount + PropertyBoxMargins*3; 
     }
@@ -157,11 +157,11 @@ namespace UEAT.EventSystem
       }
 
 
-      var category = EventCategory.GetCategoryFromEventString(eventString.StoredString);
-
       // Second and Third Property row are disabled when string mode is active
       EditorGUI.BeginDisabledGroup(eventString.AsString);
       {
+        var category = eventString.GetEventCategory();
+
         // Second Property Row
         {
           leftPropRect.y += InspectorValues.RowHeight + PropertyBoxMargins;
@@ -169,10 +169,8 @@ namespace UEAT.EventSystem
 
           EditorGUI.LabelField(leftPropRect, "Category", labelStyle);
 
-
           // Check if the currently stored category is in the list of categories (since we need the index for the dropdown array)
           int categoryIndex = IndexOf(EventCategories, category);
-
 
           // When not found add default and select it
           if (categoryIndex < 0)
@@ -183,8 +181,6 @@ namespace UEAT.EventSystem
           {
             categoryIndex = EditorGUI.Popup(rightPropRect, categoryIndex, EventCategories);
           }
-
-
 
           // User selected a valid category
           if (categoryIndex >= 0)

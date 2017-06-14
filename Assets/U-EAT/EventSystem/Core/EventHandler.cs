@@ -21,6 +21,7 @@ namespace UEAT.EventSystem
   {
     // Is this component visible in the inspector on every object that is listening to events?
     const bool IsVisibleInInspector = false;
+
     // This Dictionary stores all the different lists of functions this object is going to call when it recieves an event.
     Dictionary<string, List<Action<EventData>>> EventList = new Dictionary<string, List<Action<EventData>>>();
     

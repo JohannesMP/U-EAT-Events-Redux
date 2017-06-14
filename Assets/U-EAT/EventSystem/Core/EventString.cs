@@ -5,6 +5,7 @@
 \brief
 
 This class represents a single Event string to be used for sending events.
+It is basically just a string with a fancy inspector.
 
 \copyright © 2016-2017 CC
 *****************************************************************************/
@@ -37,7 +38,18 @@ namespace UEAT.EventSystem
       SetEventName(eventName);
     }
 
-    // This class is essentially a string with a fancy inspector.
+
+    public string GetEventName()
+    {
+      return EventCategory.GetEventNameFromEventString(StoredString);
+    }
+
+    public string GetEventCategory()
+    {
+      return EventCategory.GetCategoryFromEventString(StoredString);
+    }
+
+
     public static implicit operator string(EventString value)
     {
       return value.StoredString;

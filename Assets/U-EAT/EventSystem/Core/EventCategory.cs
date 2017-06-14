@@ -9,6 +9,8 @@ Maintains Categories for events.
 This class marks any class that derives from it (as well as nested classes)
 as candidates for defining a category of events.
 
+
+\details
   To be registered as valid events a string must be
     1. Defined as public static readonly
     2. In (or have in its class tree) a class that inherits from EventCategory
@@ -18,9 +20,6 @@ as candidates for defining a category of events.
   Side effects of being a valid event string:
     1. If Empty/Null/Undefined, will be initialized with its variable name.
     2. Will have its string value prefixed by its category.
-
-
-\details
 
 FAQ:
     Q:  What happens with uninitialized (or empty) event strings?
@@ -57,14 +56,14 @@ namespace UEAT.EventSystem
   public class EventCategory
   {
     // For use in static functions without access to GetType()
-    private static System.Type _baseType = typeof(EventCategory);
+    static System.Type BaseType = typeof(EventCategory);
 
     // When true will not consider the base class of event definitions a category
     // Example: 'Events' will not show up as a category
-    private static readonly bool _ignoreBaseClassCategories = true;
+    static readonly bool IgnoreBaseClassCategories = true;
 
     // What we use to separate the category from the eventName
-    private const char _categoryDivider = '.';
+    const char CategoryDivider = '.';
 
     // Map category/namespace to events definitions. Value is cached
     private static Dictionary<string, Dictionary<string, string>> _eventCategoryMap = null;
@@ -72,8 +71,6 @@ namespace UEAT.EventSystem
     {
       get { InitAll(); return _eventCategoryMap; }
     }
-
-    #region EventNames and EventCategories
 
     // Lazy initialized List of event categories
     private static string[] _eventCategories = null;
@@ -100,7 +97,6 @@ namespace UEAT.EventSystem
 
       return EventCategoryMap[category];
     }
-
 
     // Look up the events stored (just keys) in a given event category
     public static string[] GetEventNamesInCategory(string category)
@@ -142,7 +138,7 @@ namespace UEAT.EventSystem
     public static string GetCategoryFromEventString(string concatString)
     {
       // First assume the string is formated as <CATEGORY><CategoryDivider><EVENT>
-      int categoryIndex = concatString.LastIndexOf(_categoryDivider);
+      int categoryIndex = concatString.LastIndexOf(CategoryDivider);
       if(categoryIndex > 0)
       {
         var category = concatString.Substring(0, categoryIndex);
@@ -161,7 +157,7 @@ namespace UEAT.EventSystem
     // Given a string formatted as <CATEGORY><CategoryDivider><EVENT>, extract the 'event'
     public static string GetEventNameFromEventString(string concatString)
     {
-      int categoryIndex = concatString.LastIndexOf(_categoryDivider) + 1;
+      int categoryIndex = concatString.LastIndexOf(CategoryDivider) + 1;
       if (categoryIndex > 1 && categoryIndex < concatString.Length)
       {
         var eventName = concatString.Substring(categoryIndex);
@@ -173,10 +169,8 @@ namespace UEAT.EventSystem
 
     public static string ConstructEventString(string category, string eventName)
     {
-      return category + _categoryDivider + eventName;
+      return category + CategoryDivider + eventName;
     }
-
-    #endregion
 
 
 
@@ -201,7 +195,7 @@ namespace UEAT.EventSystem
         .Where(
           type =>
             type.IsClass &&
-            type.IsSubclassOf(_baseType) &&
+            type.IsSubclassOf(BaseType) &&
             (type.IsPublic || type.IsNestedPublic)
         ).ToArray();
 
@@ -218,7 +212,7 @@ namespace UEAT.EventSystem
           newFound.AddRange(type.GetNestedTypes(BindingFlags.Public));
 
           // Skip storing base types if necessary
-          if (_ignoreBaseClassCategories && type.IsSubclassOf(_baseType))
+          if (IgnoreBaseClassCategories && type.IsSubclassOf(BaseType))
             continue;
 
           // Store the already nested classes we just checked
@@ -243,8 +237,8 @@ namespace UEAT.EventSystem
       // Compute the category string based on what types it is nested inside of
       string category = GetEventCategory(eventCategoryType);
 
-      if (!_eventCategoryMap.ContainsKey(category))
-        _eventCategoryMap[category] = new Dictionary<string, string>();
+      if (!EventCategoryMap.ContainsKey(category))
+        EventCategoryMap[category] = new Dictionary<string, string>();
       else
         throw new UnityException("Duplicate EventCategory class named '" + category + "'");
 
@@ -262,7 +256,7 @@ namespace UEAT.EventSystem
       // No members at this level, don't bother showing it
       if(fields.Length == 0)
       {
-        _eventCategoryMap.Remove(category);
+        EventCategoryMap.Remove(category);
         return;
       }
 
@@ -280,8 +274,8 @@ namespace UEAT.EventSystem
         field.SetValue(null, value);
 
         // Store Event strings
-        if (!_eventCategoryMap[category].ContainsKey(field.Name))
-          _eventCategoryMap[category][field.Name] = value;
+        if (!EventCategoryMap[category].ContainsKey(field.Name))
+          EventCategoryMap[category][field.Name] = value;
         // Really this should never happen...
         else
           throw new UnityException("Duplicate event string in category '" + category + "' named '" + field.Name);
@@ -295,19 +289,19 @@ namespace UEAT.EventSystem
 
       // Walk until we find the base container
       System.Type tempType = containerType;
-      while (tempType.DeclaringType != null && tempType.BaseType != _baseType)
+      while (tempType.DeclaringType != null && tempType.BaseType != BaseType)
       {
         tempType = tempType.DeclaringType;
       }
 
       // Not base container - containerType was not nested correctly (another example of something that should not happen)
-      if (tempType.BaseType != _baseType)
-        throw new UnityException(containerType + " is not nested inside a " + _baseType + " class!");
+      if (tempType.BaseType != BaseType)
+        throw new UnityException(containerType + " is not nested inside a " + BaseType + " class!");
 
       // The passed in container was a base class
       if(tempType == containerType)
       {
-        if (_ignoreBaseClassCategories)
+        if (IgnoreBaseClassCategories)
           path = "";
         else
           path = containerType.Name;
@@ -315,7 +309,7 @@ namespace UEAT.EventSystem
       // The passed in container was nested in a base class
       else
       {
-        if (_ignoreBaseClassCategories)
+        if (IgnoreBaseClassCategories)
           path = path.Substring(tempType.FullName.Length + 1);
         else
           path = tempType.Name + path.Substring(tempType.FullName.Length);
