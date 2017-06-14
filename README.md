@@ -77,7 +77,7 @@ namespace UEAT.EventSystem {                   // 1. Namespace
     public class Category {                    // 3. The container for the static readonly strings
       static Category() { InitAll(); }         // 4. Ensures that all static readonly strings are init
       
-      public static readonly string SomeEvent; // 5. Guaranteed to be initialized with string "SomeEvent"
+      public static readonly string SomeEvent; // 5. Guaranteed to be initialized with string "Category.SomeEvent"
     }
   }
 }
@@ -118,8 +118,6 @@ To make it easy for users to add their own events, the `Events` class is now `pa
 
 ## Todo
 
-Currently the category is not automatically stored in an event string. This means that categories that contain the same event string, for example `Events.A.Init` and `Events.B.Init`, would be ambiguous.
+While the Category/Event dropdowns already update correctly when typing in the string field in the Inspector of an `EventString`, it might be nice to show the user an autocomplete dropdown that shows them potential Category/EventNames they might want to write.
 
-Currently there is also no check performed to prevent ambiguous events.
-
-It may make sense to Guarantee that event strings will always be formated as `Category.<OPTIONAL.SUBCATEGORIES>.Name`, which would also elliminate the need for storing the Category as a string in `EventString` for the `PropertyDrawer` (which is only stored in the editor).
+However this is very low priority since in that case the user can just use the dropdowns anyways.
