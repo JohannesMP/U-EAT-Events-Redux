@@ -55,7 +55,7 @@ This is accomplished by wrapping any `Action` without arguments in a wrapper `Ac
 
 To ensure that Connecting an action multiple times will result in the same wrapper, `EventHandler` now also stores a `CallbackWrapperList` Dictionary.
 
-Similarly, to ensure that `EventDisconnect(string eventName, object thisPointer)` still works, `EventHandler` also stores the inverse mapping `WrapperCallbackList`. This is necessary since the events are removed by looking at the `Target` property of each stored `Action<EventData`, but the wrapper does have that same Target. We use `WrapperCallbackList` to quickly locate the original `Action` and then compare against its `Target` instead.
+Similarly, to ensure that `EventDisconnect(string eventName, object thisPointer)` still works, `EventHandler` also stores the inverse mapping `WrapperCallbackList`. This is necessary since the events are removed by looking at the `Target` property of each stored `Action<EventData`, but the wrapper does have that same Target. We use `WrapperCallbackList` to efficiently locate the original `Action` and then compare against its `Target` instead.
 
 ### 4. Minor changes
 
