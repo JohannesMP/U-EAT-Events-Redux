@@ -1,7 +1,7 @@
 
 # U-EAT-Events-Redux
 
-![Example of Event Categories](http://i.imgur.com/l5M0nxt.gif)
+![Example of Event Categories](http://i.imgur.com/eVipIrl.gif)
 
 A redux of the U-EAT event system: http://u-eat.org/events.html
 
