@@ -1,7 +1,8 @@
 
-![](http://i.imgur.com/l5M0nxt.gif)
-
 # U-EAT-Events-Redux
+
+![Example of Event Categories](http://i.imgur.com/l5M0nxt.gif)
+
 A redux of events from U-EAT by Filiecs: http://u-eat.org/
 
 ## Goals of Redux
