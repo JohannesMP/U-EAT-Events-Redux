@@ -5,6 +5,7 @@
 
 A redux of the U-EAT event system: http://u-eat.org/events.html
 
+
 ## Goals of Redux
 
 1. Allow Event strings to be stored in categories, while still providing an intuitive editor UI for selecting them.
@@ -15,6 +16,7 @@ A redux of the U-EAT event system: http://u-eat.org/events.html
 All of these goals have been completed. See the [Todo](#todo) section at the bottom of this readme for some potential future changes.
 
 <br>
+
 
 ## General Change Overview
 
@@ -95,7 +97,7 @@ public class EventDemo : MonoBehaviour {
 
 ### What is happening
 
-The event strings are guaranteed to be initialized to their own name if they are left empty or null, and all event strings are prefixed with their Category - the string of classes they are inside of, which by default does not count 'Events' (this can be toggled in [`IgnoreBaseClassCategories`](Assets/U-EAT/EventSystem/Core/EventCategory.cs#L63)).
+The event strings are guaranteed to be initialized to their own name if they are left empty or null, and all event strings are prefixed with their Category - the string of classes they are inside of, which by default does not count 'Events' (this can be toggled in [`IgnoreBaseClassCategories`](Assets/U-EAT/EventSystem/Core/EventCategory.cs#L66)).
 
 It is easy to iterate over fields with C# Reflection and Linq and initialize them, but what if someone accesses an event string in a static constructor, who's initialization order might be before that of where we place the initialization logic?
 
