@@ -113,6 +113,10 @@ The first time any static property is accessed in a class with `InitAll()` in it
 
 To make it easy for users to add their own events, the `Events` class is now `partial` and inherits from EventCategory which provides all contained classes access to `InitAll()`, and means we can easily locate their static readonly strings.
 
+> **TO BE CLEAR**: 99% of the time this would all work without adding static constructors or `InitAll()` to the categories. If all `Event.<stuff>` accesses occured at runtime (not static construction time), then all static initialization would have occurred already. 
+>
+> The only time it would be a problem is when something else static happens to be initialized first. While unlikely, I wanted to make sure that these edge cases are covered. By adding static constructors that call InitAll() to each class that contains the readonly strings we want to modify, this edge cases is mitigated.
+
 
 ## Todo
 
