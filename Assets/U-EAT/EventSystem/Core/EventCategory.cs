@@ -55,6 +55,7 @@ namespace UEAT.EventSystem
 {
   public class EventCategory
   {
+    // Static Ctr
     static EventCategory() { InitAll(); }
     
     // For use in static functions without access to GetType()
