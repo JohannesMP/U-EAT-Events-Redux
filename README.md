@@ -66,16 +66,16 @@ Similarly, to ensure that `EventDisconnect(string eventName, object thisPointer)
 It's easiest to explain how event strings work by providing an example and then breaking it down.
 
 ### Adding an Example event
-Let's add an event string `SomeEvent` in the category `Category`. The following could be placed in a new script:
+Let's add an event string `Bar` in the category `Foo`, so that a user can access its string value via `Events.Foo.Bar`. The following could be placed in a new script:
 
 ```c#
-namespace UEAT.EventSystem {                   // 1. Namespace
-  public partial class Events {                // 2. Inherits from 'EventsCategory' to provide static InitAll()
-    public class Category {                    // 3. The container for the static readonly strings
-      static Category() { InitAll(); }         // 4. Ensures that all static readonly strings are init
+namespace UEAT.EventSystem {                       // 1. Namespace
+  public partial class Events {                    // 2. Inherits from 'EventsCategory' to provide static InitAll()
+    public class Foo {                             // 3. The container for the static readonly strings
+      static Foo() { InitAll(); }                  // 4. Ensures that all static readonly strings are init
       
-      public static readonly string SomeEvent; // 5. Guaranteed to be initialized with string "Category.SomeEvent"
-      public static readonly string Other = "Custom" // Guaranteed to be init with string "Category.Custom"
+      public static readonly string Bar;           // 5. Guaranteed to be initialized with string "Foo.Bar"
+      public static readonly string Baz = "Custom" // 6. Guaranteed to be init with string "Foo.Custom"
     }
   }
 }
@@ -87,9 +87,9 @@ And a user would use it as follows:
 using UEAT.EventSystem;
 public class EventDemo : MonoBehaviour {
   void Start() {
-    gameObject.Connect( Events.Category.SomeEvent, OnSomeEvent );
+    gameObject.Connect( Events.Foo.Bar, OnFooBar );
   }
-  void OnSomeEvent() { Debug.Log("Some Event Happened"); }
+  void OnFooBar() { Debug.Log("FooBar Happened"); }
 }
 ```
 
@@ -103,7 +103,7 @@ To get around this we leverage the guarantee that C# provides for statics: Befor
 
 <br/>
 
-Therefore in the example above, even if `Events.Category.SomeEvent` was accessed in a static constructor, C# guarantees that Category's static constructor is run before the value in `SomeEvent` is returned.
+Therefore in the example above, even if `Events.Foo.Bar` was accessed in a static constructor, C# guarantees that Category's static constructor is run before the value in `Bar` is returned.
 
 We leverage this by having the `InitAll()` call in every class that contains static readonly event strings.
 
