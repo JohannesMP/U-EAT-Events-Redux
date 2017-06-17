@@ -9,7 +9,7 @@ A redux of the U-EAT event system: http://u-eat.org/events.html
 
 1. Allow Event strings to be stored in categories, while still providing an intuitive editor UI for selecting them.
 2. Allow users to define event strings in their own files, so they can keep their codebase separated from the U-EAT codebase, while still having them show up in the custom property inspector.
-3. No longer require event strings to be initialized manually (ex: `static readonly string LogicUpdate = "LogicUpdate"`.
+3. No longer require event strings to be initialized manually (ex: `static readonly string LogicUpdate = "LogicUpdate"`).
 4. Allow Functions without an `EventData` argument to be Connected/Disconnected to an event string.
 
 All of these goals have been completed. See the [Todo](#todo) section at the bottom of this readme for some potential future changes.
