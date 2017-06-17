@@ -28,7 +28,6 @@ namespace UEAT.EventSystem
     {
       return IgnoreEventCase ? eventName.ToLower() : eventName;
     }
-
     
 
     public static void EventConnect(GameObject target, string eventName, Action<EventData> func)
@@ -100,7 +99,6 @@ namespace UEAT.EventSystem
       }
       targetHandler.DisconnectAll();
     }
-
 
     // Extension Methods to the GameObject class.
 
