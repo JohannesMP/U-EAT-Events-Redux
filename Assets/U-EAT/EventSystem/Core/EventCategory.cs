@@ -42,7 +42,7 @@ FAQ:
         the event strings that are defined.
         - The point of this is for custom editor inspectors for selecting events.
 
-\copyright Â© 2016-2017 CC
+\copyright © 2016-2017 CC
 *****************************************************************************/
 using UnityEngine;
 using System.Collections;
@@ -57,7 +57,7 @@ namespace UEAT.EventSystem
   {
     // Static Ctr
     static EventCategory() { InitAll(); }
-    
+
     // For use in static functions without access to GetType()
     static System.Type BaseType = typeof(EventCategory);
 
@@ -74,7 +74,7 @@ namespace UEAT.EventSystem
     {
       get { InitAll(); return _eventCategoryMap; }
     }
-    
+
     // Lazy initialized List of event categories
     private static string[] _eventCategories = null;
     public static string[] GetEventCategories()
@@ -174,6 +174,7 @@ namespace UEAT.EventSystem
     {
       return category + CategoryDivider + eventName;
     }
+
 
 
     // Initialize all event Categories
@@ -329,4 +330,4 @@ namespace UEAT.EventSystem
     static Events() { InitAll(); }
   }
 
-} // namespace FTQ.Events
+} // namespace UEAT.Events

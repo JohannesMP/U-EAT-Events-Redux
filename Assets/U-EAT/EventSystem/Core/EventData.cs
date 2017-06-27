@@ -9,124 +9,97 @@ system, as well as several common types that derive from it.
 
 \copyright © 2016-2017 CC
 *****************************************************************************/
-
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UEAT.EventSystem
 {
   // The default class that all custom events must inherit from.
   public class EventData
-  {
+  {}
 
+  // EventData with one argument
+  public class EventData<T1> : EventData
+  {
+    public T1 Value;
+    public EventData(T1 value = default(T1))
+    {
+      Value = value;
+    }
+
+    public static implicit operator T1(EventData<T1> value)
+    {
+      return value.Value;
+    }
+
+    public static implicit operator EventData<T1>(T1 value)
+    {
+      return new EventData<T1>(value);
+    }
   }
+
+  // EventData with two arguments
+  public class EventData<T1, T2> : EventData<T1>
+  {
+    public T2 Value2;
+    public EventData(T1 value = default(T1), T2 value2 = default(T2)) : base(value)
+    {
+      Value2 = value2;
+    }
+  }
+
+  // EventData with three arguments
+  public class EventData<T1, T2, T3> : EventData<T1, T2>
+  {
+    public T3 Value3;
+    public EventData(T1 value = default(T1), T2 value2 = default(T2), T3 value3 = default(T3)) : base(value, value2)
+    {
+      Value3 = value3;
+    }
+  }
+
+  // EventData with four arguments
+  public class EventData<T1, T2, T3, T4> : EventData<T1, T2, T3>
+  {
+    public T4 Value4;
+    public EventData(T1 value = default(T1), T2 value2 = default(T2), T3 value3 = default(T3), T4 value4 = default(T4)) : base(value, value2, value3)
+    {
+      Value4 = value4;
+    }
+  }
+
 
   // Custom events
-  public class IntegerEvent : EventData
-  {
-    public int Value;
-    public IntegerEvent(int intValue = 0)
-    {
-      Value = intValue;
 
-    }
-    public static implicit operator int(IntegerEvent value)
-    {
-      return value.Value;
-    }
-    public static implicit operator IntegerEvent(int value)
-    {
-      return new IntegerEvent(value);
-    }
-  }
+  // Integer
+  public class IntegerEvent : EventData<int> {}
+  // Float
+  public class FloatEvent : EventData<float> { }
+  // Double
+  public class DoubleEvent : EventData<double> { }
+  // Bool
+  public class BoolEvent : EventData<bool> { }
+  // Long
+  public class LongEvent : EventData<long> { }
 
-  public class FloatEvent : EventData
-  {
-    public float Value;
-    public FloatEvent(float floatValue = 0.0f)
-    {
-      Value = floatValue;
-    }
-    public static implicit operator float(FloatEvent value)
-    {
-      return value.Value;
-    }
-    public static implicit operator FloatEvent(float value)
-    {
-      return new FloatEvent(value);
-    }
-  }
+  // String
+  public class StringEvent : EventData<string> { }
+  // Vector2
+  public class Vector2Event : EventData<Vector2> { }
+  // Vector3
+  public class Vector3Event : EventData<Vector3> { }
+  // Vector4
+  public class Vector4Event : EventData<Vector4> { }
 
-  public class DoubleEvent : EventData
-  {
-    public double Value;
-    public DoubleEvent(double doubleValue = 0.0)
-    {
-      Value = doubleValue;
-    }
-    public static implicit operator double(DoubleEvent value)
-    {
-      return value.Value;
-    }
-    public static implicit operator DoubleEvent(double value)
-    {
-      return new DoubleEvent(value);
-    }
-  }
+  // Collision 2D
+  public class CollisionEvent2D : EventData<Collision2D> { }
+  // Collision 3D
+  public class CollisionEvent3D : EventData<Collision> { }
 
-  public class StringEvent : EventData
-  {
-    public string Value;
-    public StringEvent(string stringValue = "")
-    {
-      Value = stringValue;
+  // GameObject
+  public class GameObjectEvent : EventData<GameObject> { }
+  // Scene
+  public class SceneEvent : EventData<Scene> {}
 
-    }
-    public static implicit operator string(StringEvent value)
-    {
-      return value.Value;
-    }
-    public static implicit operator StringEvent(string value)
-    {
-      return new StringEvent(value);
-    }
-  }
-
-  public class CollisionEvent2D : EventData
-  {
-    public Collision2D StoredCollision;
-    public CollisionEvent2D(Collision2D collision = null)
-    {
-      StoredCollision = collision;
-    }
-
-    public static implicit operator Collision2D(CollisionEvent2D value)
-    {
-      return value.StoredCollision;
-    }
-
-    public static implicit operator CollisionEvent2D(Collision2D value)
-    {
-      return new CollisionEvent2D(value);
-    }
-  }
-
-  public class CollisionEvent3D : EventData
-  {
-    public Collision StoredCollision;
-    public CollisionEvent3D(Collision collision = null)
-    {
-      StoredCollision = collision;
-    }
-
-    public static implicit operator Collision(CollisionEvent3D value)
-    {
-      return value.StoredCollision;
-    }
-
-    public static implicit operator CollisionEvent3D(Collision value)
-    {
-      return new CollisionEvent3D(value);
-    }
-  }
 
 } // namespace EventSystem

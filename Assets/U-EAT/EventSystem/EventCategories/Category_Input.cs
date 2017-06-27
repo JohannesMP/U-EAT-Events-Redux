@@ -52,4 +52,4 @@ namespace UEAT.EventSystem
     }
   }
 
-} // FTQ.EventSystem
+} // UEAT.EventSystem
